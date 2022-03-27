@@ -1,8 +1,13 @@
 FROM ubuntu
 
-RUN apt update; \
-DEBIAN_FRONTEND=noninteractive apt install apache2 -y
+RUN apt-get update
 
-EXPOSE 80
+RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
 
-CMD service apache2 start && while :; do foo; sleep 2; done
+RUN apt-get -y install apache2
+
+ADD . /var/www/html
+
+ENTRYPOINT apachectl -D FOREGROUND
+
+ENV name Intellipaat
